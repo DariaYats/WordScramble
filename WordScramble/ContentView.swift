@@ -42,9 +42,9 @@ struct ContentView: View {
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
             .toolbar {
-                Button("Start game", action: startGame)
+                Button("New game", action: startGame)
             }
-            
+
             .alert(errorTitle, isPresented: $showingError) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -61,27 +61,27 @@ struct ContentView: View {
             wordError(title: "Word used already.", message: "Be more original.")
             return
         }
-        
-        guard ifPossible(word: answer) else {
+
+        guard isPossible(word: answer) else {
             wordError(title: "Word not possible.", message: "You can't spell that word from '\(rootWord)'!")
             return
         }
-        
+
         guard isReal(word: answer) else {
             wordError(title: "Word not recognize.", message: "You can't just make them up, you know!")
             return
         }
-        
-        guard ifShort(word: answer) else {
+
+        guard isLongEnough(word: answer) else {
             wordError(title: "Your word too short.", message: "Try again!")
             return
         }
-        
-        guard ifRootWord(word: answer) else {
+
+        guard answer != rootWord else {
             wordError(title: "Same word.", message: "Try again!")
             return
         }
-        
+
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
