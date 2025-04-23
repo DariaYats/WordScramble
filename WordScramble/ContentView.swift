@@ -12,7 +12,9 @@ struct ContentView: View {
     @State private var rootWord = ""
     @State private var newWord = ""
     @State private var score = 0
-    
+
+    @FocusState private var isTextFieldFocused: Bool
+
     @State private var errorTitle = ""
     @State private var errorMessage = ""
     @State private var showingError = false
@@ -22,8 +24,12 @@ struct ContentView: View {
                 Section {
                     TextField("Enter your word", text: $newWord)
                         .autocapitalization(.none)
+                        .focused($isTextFieldFocused)
                 }
-                
+                .onSubmit {
+                    isTextFieldFocused = true
+                }
+
                 Section {
                     ForEach(usedWords, id: \.self) { word in
                         HStack {
